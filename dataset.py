@@ -2,9 +2,8 @@ import os
 from os import listdir
 
 import torch.utils.data as data
-from PIL import Image
-
 import torchvision.transforms as transforms
+from PIL import Image
 
 
 def is_image_file(filename):
@@ -15,9 +14,9 @@ def default_loader(path):
     return Image.open(path).convert('RGB')
 
 
-class Dataset(data.Dataset):
+class TestDataset(data.Dataset):
     def __init__(self, contentPath, stylePath, fineSize):
-        super(Dataset, self).__init__()
+        super(TestDataset, self).__init__()
         self.contentPath = contentPath
         self.image_list = [x for x in listdir(contentPath) if is_image_file(x)]
         self.stylePath = stylePath
@@ -25,7 +24,7 @@ class Dataset(data.Dataset):
         # self.normalize = transforms.Normalize(mean=[103.939,116.779,123.68],std=[1, 1, 1])
         # normalize = transforms.Normalize(mean=[123.68,103.939,116.779],std=[1, 1, 1])
         self.prep = transforms.Compose([
-                    transforms.Scale(fineSize),
+                    transforms.Resize(fineSize),
                     transforms.ToTensor(),
                     # transforms.Lambda(lambda x: x[torch.LongTensor([2,1,0])]), #turn to BGR
                     ])
@@ -60,3 +59,9 @@ class Dataset(data.Dataset):
     def __len__(self):
         # You should change 0 to the total size of your dataset.
         return len(self.image_list)
+
+
+class TrainDataset(data.Dataset):
+    def __init__(self, img_dir):
+        super(TrainDataset, self).__init__()
+        

@@ -1,9 +1,11 @@
 from __future__ import division
+
 import torch
-from torch.utils.serialization import load_lua
-from modelsNIPS import decoder1, decoder2, decoder3, decoder4, decoder5
-from modelsNIPS import encoder1, encoder2, encoder3, encoder4, encoder5
 import torch.nn as nn
+from torch.utils.serialization import load_lua
+
+from encoder_decoder import (decoder1, decoder2, decoder3, decoder4, decoder5,
+                             encoder1, encoder2, encoder3, encoder4, encoder5)
 
 
 class WCT(nn.Module):
