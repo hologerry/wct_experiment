@@ -62,6 +62,20 @@ class TestDataset(data.Dataset):
 
 
 class TrainDataset(data.Dataset):
-    def __init__(self, img_dir):
+    def __init__(self, img_dir, img_size):
         super(TrainDataset, self).__init__()
-        
+        self.img_dir = img_dir
+        self.img_list = [x for x in listdir(self.img_dir) if is_image_file(x)]
+        self.trans = transforms.Compose([
+            transforms.Resize((img_size, img_size)),
+            transforms.ToTensor(),
+        ])
+
+    def __getitem__(self, index):
+        img_path = os.path.join(self.img_dir, self.img_list[index])
+        img = default_loader(img_path)
+        img = self.trans(img)
+        return img.squeeze(0)
+
+    def __len__(self):
+        return len(self.img_list)

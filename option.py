@@ -10,10 +10,12 @@ class Options:
         # training arguments
         train_arg = subparser.add_parser("train", help="Parser for training arguments")
         # Dataset directory
-        train_arg.add_argument('')
+        train_arg.add_argument('--run_id', type=int, required=True)
+        train_arg.add_argument('--dataset_dir', type=str, default='/media/gerry/Data_2/mscoco/',
+                               help='root directory of mscoco dataset')
         train_arg.add_argument('--train_img_dir', type=str, default='train2014',
                                help='Path to train image')
-        train_arg.add_argument('--val_img_dir', type=str, default='/media/gerry/Data_2/mscoco/val2014',
+        train_arg.add_argument('--val_img_dir', type=str, default='val2014',
                                help='Path to validate image')
         train_arg.add_argument('--relu_target', type=str, required=True,
                                help='Target VGG19 relu layer to decode from, e.g. relu4_1')
@@ -27,8 +29,14 @@ class Options:
         # hyperparameter
         train_arg.add_argument('--lr', type=float, default=1e-4, help='Learning rate')
         train_arg.add_argument('--lr_decay_fr', type=float, default=10, help='Learning rate decay frequency')
-        train_arg.add_argument('--epochs', type=int, default=20, help='Number of epochs')
+        train_arg.add_argument('--epochs', type=int, default=15, help='Number of epochs')
+        train_arg.add_argument('--d1_epochs', type=int, default=4, help='Number of epochs on training decoder1')
+        train_arg.add_argument('--d2_epochs', type=int, default=8, help='Number of epochs on training decoder2')
+        train_arg.add_argument('--d3_epochs', type=int, default=16, help='Number of epochs on training decoder3')
+        train_arg.add_argument('--d4_epochs', type=int, default=20, help='Number of epochs on training decoder4')
+        train_arg.add_argument('--d5_epochs', type=int, default=32, help='Number of epochs on traiing decoder5')
         train_arg.add_argument('--batch_size', type=int, default=32, help='batch size')
+        train_arg.add_argument('--img_size', type=int, default=224, help='Train image size')
 
         train_arg.add_argument('--workers', default=2, type=int, metavar='N',
                                help='Number of data loading workers (default: 4)')
