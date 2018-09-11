@@ -36,7 +36,7 @@ class Options:
         train_arg.add_argument('--d4_epochs', type=int, default=20, help='Number of epochs on training decoder4')
         train_arg.add_argument('--d5_epochs', type=int, default=32, help='Number of epochs on traiing decoder5')
         train_arg.add_argument('--batch_size', type=int, default=32, help='batch size')
-        train_arg.add_argument('--img_size', type=int, default=224, help='Train image size')
+        train_arg.add_argument('--img_size', type=int, default=256, help='Train image size')
 
         train_arg.add_argument('--workers', default=2, type=int, metavar='N',
                                help='Number of data loading workers (default: 4)')
@@ -61,13 +61,11 @@ class Options:
         train_arg.add_argument('--decoder1', default='models/feature_invertor_conv1_1.t7',
                                help='Path to the decoder1')
         train_arg.add_argument('--cuda', action='store_true', help='enables cuda')
-        train_arg.add_argument('--batch_size', type=int, default=1, help='batch size')
         train_arg.add_argument('--fineSize', type=int, default=512,
                                help='resize image to fineSize x fineSize,leave it to 0 if not resize')
         train_arg.add_argument('--output_dir', default='samples/', help='folder to output images')
         train_arg.add_argument('--alpha', type=float, default=1,
                                help='hyperparameter to blend wct feature and content feature')
-        train_arg.add_argument('--gpu', type=int, default=0, help="which gpu to run on.  default is 0")
 
         ###
         # test arguments

@@ -18,12 +18,12 @@ from dataset import TestDataset
 from dataset import TrainDataset
 from option import Options
 from utils import write_event, save_model
-from style_transfer_test import style_transfer
+from inference.style_transfer_test import style_transfer
 
 
 def train(args):
-    train_dataset = TrainDataset(os.path.join(args.dataset_dir, args.train_img_dir))
-    val_dataset = TrainDataset(os.path.join(args.dataset_dir, args.val_img_dir))
+    train_dataset = TrainDataset(os.path.join(args.dataset_dir, args.train_img_dir), args.img_size)
+    val_dataset = TrainDataset(os.path.join(args.dataset_dir, args.val_img_dir), args.img_size)
 
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True,
                                   num_workers=args.batch_size, pin_memory=torch.cuda.is_available())
@@ -64,7 +64,7 @@ def train(args):
         encoder = encoder.cuda()
         decoder = decoder.cuda()
 
-    optimizer = Adam(decoder.parameters, lr=args.lr)
+    optimizer = Adam(decoder.parameters(), lr=args.lr)
     loss_fn = MSELoss()
 
     run_id = args.run_id
@@ -96,6 +96,8 @@ def train(args):
 
                 loss.backward()
                 optimizer.step()
+
+                step += 1
 
                 tq.update(args.batch_size)
                 losses.append(loss.item())
@@ -148,7 +150,7 @@ def validation(args, encoder, decoder, loss_fn, val_dataloader):
 def test(args):
     # Data loading code
     dataset = TestDataset(args.contentPath, args.stylePath, args.fineSize)
-    loader = torch.utils.data.DataLoader(dataset=dataset, batch_size=1, shuffle=False)
+    loader = DataLoader(dataset=dataset, batch_size=1, shuffle=False)
     avgTime = 0
     cImg = torch.Tensor()
     sImg = torch.Tensor()
@@ -185,3 +187,7 @@ def main():
         test(args)
     else:
         raise ValueError("Experiment type error")
+
+
+if __name__ == '__main__':
+    main()

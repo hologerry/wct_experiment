@@ -4,8 +4,8 @@ import torch
 import torch.nn as nn
 from torch.utils.serialization import load_lua
 
-from encoder_decoder import (decoder1, decoder2, decoder3, decoder4, decoder5,
-                             encoder1, encoder2, encoder3, encoder4, encoder5)
+from inference.encoder_decoder_test import (decoder1, decoder2, decoder3, decoder4, decoder5,
+                                            encoder1, encoder2, encoder3, encoder4, encoder5)
 
 
 class WCT(nn.Module):

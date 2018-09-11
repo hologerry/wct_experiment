@@ -1,5 +1,5 @@
 import os
-from wct import WCT
+from inference.wct import WCT
 import torchvision.utils as vutils
 
 
