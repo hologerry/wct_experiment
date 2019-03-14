@@ -18,7 +18,7 @@ from dataset import TestDataset
 from dataset import TrainDataset
 from option import Options
 from utils import write_event, save_model
-from inference.style_transfer_test import style_transfer
+from wct import style_transfer
 
 
 def train(args):
@@ -159,34 +159,31 @@ def validation(args, encoder, decoder, loss_fn, val_dataloader, batch_size):
 
 def test(args):
     # Data loading code
-    dataset = TestDataset(args.contentPath, args.stylePath, args.fineSize)
+    dataset = TestDataset(args.content_path, args.style_path, args.fine_size)
     loader = DataLoader(dataset=dataset, batch_size=1, shuffle=False)
-    avgTime = 0
-    cImg = torch.Tensor()
-    sImg = torch.Tensor()
+    avg_time = 0
+
     csF = torch.Tensor()
-    if (args.cuda):
-        cImg = cImg.cuda(args.gpu)
-        sImg = sImg.cuda(args.gpu)
+    if args.cuda and torch.cuda.is_available():
         csF = csF.cuda(args.gpu)
 
-    for i, (contentImg, styleImg, imname) in enumerate(loader):
+    for i, (content_img, style_img, imname) in enumerate(loader):
         imname = imname[0]
         print('Transferring ' + imname)
         with torch.no_grad():
-            cImg = torch.tensor(contentImg)
-            sImg = torch.tensor(styleImg)
-        if (args.cuda):
+            cImg = torch.tensor(content_img)
+            sImg = torch.tensor(style_img)
+        if args.cuda and torch.cuda.is_available():
             cImg = cImg.cuda(args.gpu)
             sImg = sImg.cuda(args.gpu)
         start_time = time.time()
         # WCT Style Transfer
-        style_transfer(cImg, sImg, imname, csF)
+        style_transfer(args, cImg, sImg, imname, csF)
         end_time = time.time()
         print('Elapsed time is: %f' % (end_time - start_time))
-        avgTime += (end_time - start_time)
+        avg_time += (end_time - start_time)
 
-    print('Processed %d images. Averaged time is %f' % ((i+1), avgTime/(i+1)))
+    print('Processed %d images. Averaged time is %f' % ((i+1), avg_time/(i+1)))
 
 
 def main():
