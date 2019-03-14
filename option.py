@@ -106,6 +106,7 @@ class Options:
                               help='Path to the decoder1')
         test_arg.add_argument('--alpha', type=float, default=1,
                               help='hyperparameter to blend wct feature and content feature')
+        test_arg.add_argument('--output_dir', default='samples/', help='folder to output images')
 
     def parse(self):
         return self.parser.parse_args()

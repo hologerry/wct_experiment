@@ -42,5 +42,5 @@ def style_transfer(args, content_img, style_img, imname, csF):
     csF1 = wct.transform(cF1, sF1, csF, args.alpha)
     Im1 = wct.d1(csF1)
     # save_image has this wired design to pad images with 4 pixels at default.
-    vutils.save_image(Im1.data.cpu().float(), os.path.join(args.outf, imname))
+    vutils.save_image(Im1.data.cpu().float(), os.path.join(args.output_dir, imname))
     return
