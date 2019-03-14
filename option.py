@@ -11,7 +11,9 @@ class Options:
         train_arg = subparser.add_parser("train", help="Parser for training arguments")
         # Dataset directory
         train_arg.add_argument('--run_id', type=int, required=True)
-        train_arg.add_argument('--dataset_dir', type=str, default='/media/gerry/Data_2/mscoco/',
+        # train_arg.add_argument('--dataset_dir', type=str, default='/S1/CSCL/gaoy/mscoco/',
+        #                        help='root directory of mscoco dataset')
+        train_arg.add_argument('--dataset_dir', type=str, default='/data/gaoy/coco/',
                                help='root directory of mscoco dataset')
         train_arg.add_argument('--train_img_dir', type=str, default='train2014',
                                help='Path to train image')
@@ -29,13 +31,18 @@ class Options:
         # hyperparameter
         train_arg.add_argument('--lr', type=float, default=1e-4, help='Learning rate')
         train_arg.add_argument('--lr_decay_fr', type=float, default=10, help='Learning rate decay frequency')
+        train_arg.add_argument("--log_fr", type=int, default=50, help="frequency of saving log")
         train_arg.add_argument('--epochs', type=int, default=15, help='Number of epochs')
-        train_arg.add_argument('--d1_epochs', type=int, default=4, help='Number of epochs on training decoder1')
-        train_arg.add_argument('--d2_epochs', type=int, default=8, help='Number of epochs on training decoder2')
-        train_arg.add_argument('--d3_epochs', type=int, default=16, help='Number of epochs on training decoder3')
-        train_arg.add_argument('--d4_epochs', type=int, default=20, help='Number of epochs on training decoder4')
-        train_arg.add_argument('--d5_epochs', type=int, default=32, help='Number of epochs on traiing decoder5')
-        train_arg.add_argument('--batch_size', type=int, default=32, help='batch size')
+        train_arg.add_argument('--d1_epochs', type=int, default=20, help='Number of epochs on training decoder1')
+        train_arg.add_argument('--d2_epochs', type=int, default=32, help='Number of epochs on training decoder2')
+        train_arg.add_argument('--d3_epochs', type=int, default=64, help='Number of epochs on training decoder3')
+        train_arg.add_argument('--d4_epochs', type=int, default=100, help='Number of epochs on training decoder4')
+        train_arg.add_argument('--d5_epochs', type=int, default=128, help='Number of epochs on traiing decoder5')
+        train_arg.add_argument('--d1_batch_size', type=int, default=32, help='batch size')
+        train_arg.add_argument('--d2_batch_size', type=int, default=16, help='batch size')
+        train_arg.add_argument('--d3_batch_size', type=int, default=8, help='batch size')
+        train_arg.add_argument('--d4_batch_size', type=int, default=4, help='batch size')
+        train_arg.add_argument('--d5_batch_size', type=int, default=2, help='batch size')
         train_arg.add_argument('--img_size', type=int, default=256, help='Train image size')
 
         train_arg.add_argument('--workers', default=2, type=int, metavar='N',
@@ -60,7 +67,8 @@ class Options:
                                help='Path to the decoder2')
         train_arg.add_argument('--decoder1', default='models/feature_invertor_conv1_1.t7',
                                help='Path to the decoder1')
-        train_arg.add_argument('--cuda', action='store_true', help='enables cuda')
+        train_arg.add_argument('--cuda', type=int, default=1, help='enables cuda')
+        train_arg.add_argument('--gpu', type=int, default=0, help='gpu id')
         train_arg.add_argument('--fineSize', type=int, default=512,
                                help='resize image to fineSize x fineSize,leave it to 0 if not resize')
         train_arg.add_argument('--output_dir', default='samples/', help='folder to output images')
